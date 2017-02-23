@@ -1,5 +1,55 @@
 (function($) {
-    "use strict"; // Start of use strict   
+    "use strict"; // Start of use strict
+    
+    //Modal
+    $('.modal_target').on('click', function () {
+        var index = $('.modal_target').index(this);
+        updateModal(index);
+    });
+    
+    //モーダル左矢印
+    $('.arrow_left').on('click', function () {
+        var index = parseInt($('#myModal').attr( 'data-index' ));
+        updateModal( index - 1 );
+    });
+    
+    //モーダル右矢印
+    $('.arrow_right').on('click', function () {
+        var index = parseInt($('#myModal').attr( 'data-index' ));
+        updateModal( index + 1 );
+    });
+
+    /**
+     * モーダルの表示を更新
+     */
+    function updateModal(index) {
+        $('#myModal').attr( 'data-index', index );
+        var $triggerObj = $('.modal_target:eq('+index+')');
+        
+        var $next_img = $triggerObj.attr('data-img');
+        $('.modal-body').children('.modal_img').attr('src', $next_img);
+        
+        //次の画像のタイトルを取得 表示
+        var alt = $triggerObj.find('img').attr("alt");
+        $('.modal_title').text(alt);
+        
+        if( index <= 0 ){
+            //画像1のときに左の矢印を隠す
+            $('.arrow_left').hide();
+            $('.arrow_right').show();
+        }else if( index >= $('.modal_target').length - 1 ){
+            //画像最大数のときに右の矢印を隠す
+            $('.arrow_left').show();
+            $('.arrow_right').hide();
+        }else{
+            $('.arrow_left').show();
+            $('.arrow_right').show();
+        }
+    }
+
+
+
+
 //Modal
     $('.modal_target').on('click', function () {
         //画像の個数を取得
